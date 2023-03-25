@@ -1,33 +1,15 @@
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
-import { Table, ScrollArea, Menu, Divider, Drawer, Text, Button, useMantineTheme } from '@mantine/core';
+import { Table, ScrollArea, Menu, Drawer, Text, useMantineTheme } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 
-import { Edit2, Send, Save, Trash2, MoreHorizontal } from 'react-feather';
-
+import { IconTrash, IconPencil, IconSend, IconDeviceFloppy } from '@tabler/icons-react';
 import Search from '@/features/student/components/Search';
 import EditUserForm, { Profile } from '@/features/student/components/EditUser';
 import DeleteModal from '@/features/student/components/DeleteModal';
 import DashboardLayout from '@/components/DashboardLayout';
 import { TableActionMenu } from '@/features/student/components/TableActionMenu';
-import {
-  IconLogout,
-  IconHeart,
-  IconStar,
-  IconMessage,
-  IconSettings,
-  IconPlayerPause,
-  IconTrash,
-  IconSwitchHorizontal,
-  IconChevronRight,
-  IconDots,
-  IconPencil,
-  IconSend,
-  IconDeviceFloppy,
-} from '@tabler/icons-react';
-
-// import SendMessageForm from '@/features/student/components/SendMessage';
 
 const MOCKUP_USERS = [
   {
@@ -146,7 +128,7 @@ export default function Users(/*props*/) {
       message: 'Profile telah dihapus',
       color: 'red',
     });
-  }
+  };
 
   const deleteProfile = () => {
     disclosureDeleteModal.open();
@@ -173,14 +155,24 @@ export default function Users(/*props*/) {
               >
                 Edit
               </Menu.Item>
-              <Menu.Item icon={<IconSend size="0.9rem" stroke={1.5} color={theme.colors.blue[6]} />} onClick={() => sendMessage()}>
+              <Menu.Item
+                icon={<IconSend size="0.9rem" stroke={1.5} color={theme.colors.blue[6]} />}
+                onClick={() => sendMessage()}
+              >
                 Kirim Pesan
               </Menu.Item>
-              
-              <Menu.Item icon={<IconDeviceFloppy size="0.9rem" stroke={1.5} color={theme.colors.blue[6]} />} onClick={() => copyProfile()}>
+
+              <Menu.Item
+                icon={<IconDeviceFloppy size="0.9rem" stroke={1.5} color={theme.colors.blue[6]} />}
+                onClick={() => copyProfile()}
+              >
                 Simpan
               </Menu.Item>
-              <Menu.Item icon={<IconTrash size="0.9rem" stroke={1.5} color={theme.colors.red[6]} />} onClick={() => deleteProfile()} color="red">
+              <Menu.Item
+                icon={<IconTrash size="0.9rem" stroke={1.5} color={theme.colors.red[6]} />}
+                onClick={() => deleteProfile()}
+                color="red"
+              >
                 Hapus
               </Menu.Item>
             </TableActionMenu>
