@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
-import { Table, ScrollArea, Menu, Divider, Drawer, Text, Button } from '@mantine/core';
+import { Table, ScrollArea, Menu, Divider, Drawer, Text, Button, useMantineTheme } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 
@@ -10,6 +10,23 @@ import Search from '@/features/student/components/Search';
 import EditUserForm, { Profile } from '@/features/student/components/EditUser';
 import DeleteModal from '@/features/student/components/DeleteModal';
 import DashboardLayout from '@/components/DashboardLayout';
+import { TableActionMenu } from '@/features/student/components/TableActionMenu';
+import {
+  IconLogout,
+  IconHeart,
+  IconStar,
+  IconMessage,
+  IconSettings,
+  IconPlayerPause,
+  IconTrash,
+  IconSwitchHorizontal,
+  IconChevronRight,
+  IconDots,
+  IconPencil,
+  IconSend,
+  IconDeviceFloppy,
+} from '@tabler/icons-react';
+
 // import SendMessageForm from '@/features/student/components/SendMessage';
 
 const MOCKUP_USERS = [
@@ -59,6 +76,7 @@ export default function Users(/*props*/) {
   const [selectedProfileData, setSelectedProfileData] = useState<Profile>();
   const [searchLoading, setSearchLoading] = useState(false);
   const [openedDeleteModal, disclosureDeleteModal] = useDisclosure(false);
+  const theme = useMantineTheme();
 
   const onSearch = (textSearch: string) => {
     setSearchLoading(true);
@@ -128,7 +146,7 @@ export default function Users(/*props*/) {
       message: 'Profile telah dihapus',
       color: 'red',
     });
-  };
+  }
 
   const deleteProfile = () => {
     disclosureDeleteModal.open();
@@ -144,35 +162,28 @@ export default function Users(/*props*/) {
           <td>{user.workplace}</td>
           <td>{user.phone}</td>
           <td>
-            <Menu>
-              <Menu.Target>
-                <Button variant="subtle">
-                  <MoreHorizontal />
-                </Button>
-              </Menu.Target>
-              <Menu.Dropdown>
-                <Menu.Label>{user.name}</Menu.Label>
-                <Menu.Item
-                  icon={<Edit2 />}
-                  onClick={() => {
-                    setSelectedProfileData(user);
-                    toggleDrawer(true);
-                  }}
-                >
-                  Edit
-                </Menu.Item>
-                <Menu.Item icon={<Send />} onClick={() => sendMessage()}>
-                  Kirim Pesan
-                </Menu.Item>
-                <Divider />
-                <Menu.Item icon={<Save />} onClick={() => copyProfile()}>
-                  Simpan
-                </Menu.Item>
-                <Menu.Item icon={<Trash2 />} onClick={() => deleteProfile()} color="red">
-                  Hapus
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
+            <TableActionMenu>
+              <Menu.Label>{user.name}</Menu.Label>
+              <Menu.Item
+                icon={<IconPencil size="0.9rem" stroke={1.5} color={theme.colors.blue[6]} />}
+                onClick={() => {
+                  setSelectedProfileData(user);
+                  toggleDrawer(true);
+                }}
+              >
+                Edit
+              </Menu.Item>
+              <Menu.Item icon={<IconSend size="0.9rem" stroke={1.5} color={theme.colors.blue[6]} />} onClick={() => sendMessage()}>
+                Kirim Pesan
+              </Menu.Item>
+              
+              <Menu.Item icon={<IconDeviceFloppy size="0.9rem" stroke={1.5} color={theme.colors.blue[6]} />} onClick={() => copyProfile()}>
+                Simpan
+              </Menu.Item>
+              <Menu.Item icon={<IconTrash size="0.9rem" stroke={1.5} color={theme.colors.red[6]} />} onClick={() => deleteProfile()} color="red">
+                Hapus
+              </Menu.Item>
+            </TableActionMenu>
           </td>
         </tr>
       ))
