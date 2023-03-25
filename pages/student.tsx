@@ -1,108 +1,15 @@
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
-import {
-  Table,
-  ScrollArea,
-  Menu,
-  Divider,
-  Drawer,
-  Text,
-  Button,
-  Group,
-  Avatar,
-  useMantineTheme,
-  ActionIcon,
-} from '@mantine/core';
+import { Table, ScrollArea, Menu, Drawer, Text, useMantineTheme } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 
-import { Edit2, Send, Save, Trash2, MoreHorizontal } from 'react-feather';
-
+import { IconTrash, IconPencil, IconSend, IconDeviceFloppy } from '@tabler/icons-react';
 import Search from '@/features/student/components/Search';
 import EditUserForm, { Profile } from '@/features/student/components/EditUser';
 import DeleteModal from '@/features/student/components/DeleteModal';
 import DashboardLayout from '@/components/DashboardLayout';
-// import SendMessageForm from '@/features/student/components/SendMessage';
-
-import {
-  IconLogout,
-  IconHeart,
-  IconStar,
-  IconMessage,
-  IconSettings,
-  IconPlayerPause,
-  IconTrash,
-  IconSwitchHorizontal,
-  IconChevronRight,
-  IconDots,
-} from '@tabler/icons-react';
-
-export function UserMenu() {
-  const theme = useMantineTheme();
-  return (
-    <Group position="center">
-      <Menu
-        withArrow
-        width={300}
-        position="bottom"
-        transitionProps={{ transition: 'pop' }}
-        withinPortal
-      >
-        <Menu.Target>
-          <ActionIcon>
-            <IconDots size="1rem" stroke={1.5} />
-          </ActionIcon>
-        </Menu.Target>
-        <Menu.Dropdown>
-          <Menu.Item rightSection={<IconChevronRight size="0.9rem" stroke={1.5} />}>
-            <Group>
-              <Avatar
-                radius="xl"
-                src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80"
-              />
-
-              <div>
-                <Text weight={500}>Nancy Eggshacker</Text>
-                <Text size="xs" color="dimmed">
-                  neggshaker@mantine.dev
-                </Text>
-              </div>
-            </Group>
-          </Menu.Item>
-
-          <Menu.Divider />
-
-          <Menu.Item icon={<IconHeart size="0.9rem" stroke={1.5} color={theme.colors.red[6]} />}>
-            Liked posts
-          </Menu.Item>
-          <Menu.Item icon={<IconStar size="0.9rem" stroke={1.5} color={theme.colors.yellow[6]} />}>
-            Saved posts
-          </Menu.Item>
-          <Menu.Item icon={<IconMessage size="0.9rem" stroke={1.5} color={theme.colors.blue[6]} />}>
-            Your comments
-          </Menu.Item>
-
-          <Menu.Label>Settings</Menu.Label>
-          <Menu.Item icon={<IconSettings size="0.9rem" stroke={1.5} />}>Account settings</Menu.Item>
-          <Menu.Item icon={<IconSwitchHorizontal size="0.9rem" stroke={1.5} />}>
-            Change account
-          </Menu.Item>
-          <Menu.Item icon={<IconLogout size="0.9rem" stroke={1.5} />}>Logout</Menu.Item>
-
-          <Menu.Divider />
-
-          <Menu.Label>Danger zone</Menu.Label>
-          <Menu.Item icon={<IconPlayerPause size="0.9rem" stroke={1.5} />}>
-            Pause subscription
-          </Menu.Item>
-          <Menu.Item color="red" icon={<IconTrash size="0.9rem" stroke={1.5} />}>
-            Delete account
-          </Menu.Item>
-        </Menu.Dropdown>
-      </Menu>
-    </Group>
-  );
-}
+import { TableActionMenu } from '@/features/student/components/TableActionMenu';
 
 const MOCKUP_USERS = [
   {
@@ -151,6 +58,7 @@ export default function Users(/*props*/) {
   const [selectedProfileData, setSelectedProfileData] = useState<Profile>();
   const [searchLoading, setSearchLoading] = useState(false);
   const [openedDeleteModal, disclosureDeleteModal] = useDisclosure(false);
+  const theme = useMantineTheme();
 
   const onSearch = (textSearch: string) => {
     setSearchLoading(true);
@@ -236,36 +144,38 @@ export default function Users(/*props*/) {
           <td>{user.workplace}</td>
           <td>{user.phone}</td>
           <td>
-            <UserMenu />
-            {/* <Menu>
-              <Menu.Target>
-                <Button variant="subtle">
-                  <MoreHorizontal />
-                </Button>
-              </Menu.Target>
-              <Menu.Dropdown>
-                <Menu.Label>{user.name}</Menu.Label>
-                <Menu.Item
-                  icon={<Edit2 />}
-                  onClick={() => {
-                    setSelectedProfileData(user);
-                    toggleDrawer(true);
-                  }}
-                >
-                  Edit
-                </Menu.Item>
-                <Menu.Item icon={<Send />} onClick={() => sendMessage()}>
-                  Kirim Pesan
-                </Menu.Item>
-                <Divider />
-                <Menu.Item icon={<Save />} onClick={() => copyProfile()}>
-                  Simpan
-                </Menu.Item>
-                <Menu.Item icon={<Trash2 />} onClick={() => deleteProfile()} color="red">
-                  Hapus
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu> */}
+            <TableActionMenu>
+              <Menu.Label>{user.name}</Menu.Label>
+              <Menu.Item
+                icon={<IconPencil size="0.9rem" stroke={1.5} color={theme.colors.blue[6]} />}
+                onClick={() => {
+                  setSelectedProfileData(user);
+                  toggleDrawer(true);
+                }}
+              >
+                Edit
+              </Menu.Item>
+              <Menu.Item
+                icon={<IconSend size="0.9rem" stroke={1.5} color={theme.colors.blue[6]} />}
+                onClick={() => sendMessage()}
+              >
+                Kirim Pesan
+              </Menu.Item>
+
+              <Menu.Item
+                icon={<IconDeviceFloppy size="0.9rem" stroke={1.5} color={theme.colors.blue[6]} />}
+                onClick={() => copyProfile()}
+              >
+                Simpan
+              </Menu.Item>
+              <Menu.Item
+                icon={<IconTrash size="0.9rem" stroke={1.5} color={theme.colors.red[6]} />}
+                onClick={() => deleteProfile()}
+                color="red"
+              >
+                Hapus
+              </Menu.Item>
+            </TableActionMenu>
           </td>
         </tr>
       ))

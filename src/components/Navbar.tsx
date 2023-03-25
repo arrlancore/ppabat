@@ -10,7 +10,7 @@ import {
 } from '@mantine/core';
 import { useState } from 'react';
 
-import { IconCalendarStats, IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
+import { IconCalendarStats, IconChevronLeft, IconChevronRight, IconPresentationAnalytics, IconFileAnalytics } from '@tabler/icons-react';
 import { IconGauge, IconNotes } from '@tabler/icons';
 import Link from 'next/link';
 import { UserButton } from './UserButton';
@@ -131,15 +131,10 @@ type NavbarProps = {
 const navLinks = [
   { label: 'Dashboard', icon: IconGauge, link: '/' },
   { label: 'Siswa', icon: IconNotes, link: '/student' },
-  {
-    label: 'Tahun Ajaran',
-    icon: IconCalendarStats,
-    links: [
-      { label: 'Upcoming releases', link: '/new' },
-      { label: 'Previous releases', link: '/prev' },
-      { label: 'Releases schedule', link: '/login' },
-    ],
-  },
+  { label: 'Tahun Ajaran', icon: IconCalendarStats, link: '/'},
+  { label: 'Mata Pelajaran', icon: IconPresentationAnalytics, link: '/'},
+  { label: 'Nilai Siswa', icon: IconFileAnalytics , link: '/'},
+  { label: 'Tahfizh',icon: IconCalendarStats, link: '/'},
 ];
 
 export default function Navbar(props: NavbarProps) {
